@@ -1,26 +1,403 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Design System Tokens ─────────────────────────────────────────────────── */
+@theme {
+  /* Background layers */
+  --color-bg-primary: #050c1a;
+  --color-bg-surface: #0a1628;
+  --color-bg-elevated: #0f1f3d;
+  --color-bg-card: #0d1a30;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Accent palette */
+  --color-accent: #3b82f6;
+  --color-accent-dark: #1d4ed8;
+  --color-accent-indigo: #6366f1;
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #475569;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-accent: rgba(59, 130, 246, 0.3);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+:root {
+  --background: #050c1a;
+  --foreground: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Glow utilities ────────────────────────────────────────────────────────── */
+.glow-blue {
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.25), 0 0 80px rgba(59, 130, 246, 0.1);
+}
+
+.glow-blue-sm {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.text-glow {
+  text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+}
+
+/* ─── Gradient utilities ────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-accent {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Card surface ──────────────────────────────────────────────────────────── */
+.card-surface {
+  background: rgba(13, 26, 48, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.card-surface-elevated {
+  background: rgba(15, 31, 61, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ─── Nav backdrop ──────────────────────────────────────────────────────────── */
+.nav-backdrop {
+  background: rgba(5, 12, 26, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ─── Animations ────────────────────────────────────────────────────────────── */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+@keyframes float-up {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.badge-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.badge-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  animation: shimmer-sweep 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+/* Hero text — shadows ensure legibility over the globe background */
+.hero-headline {
+  text-shadow: 0 2px 28px rgba(0,0,0,0.95), 0 0 60px rgba(0,0,0,0.6);
+}
+.hero-subtitle {
+  text-shadow: 0 1px 12px rgba(0,0,0,0.85);
+}
+
+/* ─── Background patterns ───────────────────────────────────────────────────── */
+.bg-grid-dots {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bg-grid-lines {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ─── Gradient border cards ─────────────────────────────────────────────────── */
+.card-gradient-border {
+  background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(99,102,241,0.08), rgba(255,255,255,0.04));
+  padding: 1px;
+}
+
+/* ─── Globe Hero Background ─────────────────────────────────────────────────── */
+
+/*
+  The globe image covers the full section (like a background video).
+  A separate "rings stage" div — a centered square sized to the visible sphere —
+  holds the 3D orbit rings on top.
+*/
+
+/* Image layer: fills the entire section */
+.gbg-img-layer {
+  position: absolute;
+  inset: 0;
+  animation: gbg-breathe 8s ease-in-out infinite;
+}
+
+@keyframes gbg-breathe {
+  0%, 100% { filter: brightness(1)    saturate(1.1); }
+  50%       { filter: brightness(1.12) saturate(1.25) drop-shadow(0 0 40px rgba(59,130,246,0.35)); }
+}
+
+/* Rings stage: centered square anchored to the globe sphere.
+   globe.png is 16:9 and the sphere spans ~90% of the image height,
+   so 80vh ≈ the sphere diameter on a full-height viewport. */
+.gbg-rings-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width:  clamp(380px, 78vh, 820px);
+  height: clamp(380px, 78vh, 820px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Pulsing ambient underglow */
+.gbg-underglow {
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.2) 0%, transparent 65%);
+  filter: blur(32px);
+  animation: gbg-breathe 7s 1s ease-in-out infinite;
+}
+
+/* Rotating conal scan sweep */
+.gbg-scan {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(59,130,246,0.065) 20deg,
+    transparent 40deg
+  );
+  animation: gbg-scan-spin 10s linear infinite;
+}
+
+@keyframes gbg-scan-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Orbit rings ─────────────────────────────────────────────────────────── */
+.gbg-orbit {
+  position: absolute;
+  inset: -3%;
+  pointer-events: none;
+}
+
+.gbg-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(99,102,241,0.42);
+}
+.gbg-ring-thin {
+  border-width: 1px;
+  border-color: rgba(59,130,246,0.28);
+}
+
+.gbg-orbit-1 { animation: gbg-spin-1 15s linear infinite; }
+.gbg-orbit-2 { animation: gbg-spin-2 22s linear infinite reverse; }
+.gbg-orbit-3 { animation: gbg-spin-3 10s linear infinite; }
+
+@keyframes gbg-spin-1 {
+  from { transform: rotateX(70deg) rotateY(12deg)  rotateZ(0deg); }
+  to   { transform: rotateX(70deg) rotateY(12deg)  rotateZ(360deg); }
+}
+@keyframes gbg-spin-2 {
+  from { transform: rotateX(52deg) rotateY(-22deg) rotateZ(0deg); }
+  to   { transform: rotateX(52deg) rotateY(-22deg) rotateZ(360deg); }
+}
+@keyframes gbg-spin-3 {
+  from { transform: rotateX(80deg) rotateY(48deg)  rotateZ(0deg); }
+  to   { transform: rotateX(80deg) rotateY(48deg)  rotateZ(360deg); }
+}
+
+/* Glowing dot riding on each ring */
+.gbg-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0  8px 2px rgba(99,102,241,0.9),
+    0 0 18px 5px rgba(59,130,246,0.45);
+  margin: -3.5px;
+}
+.gbg-orbit-1 .gbg-dot { top: 50%; left: 100%; }
+.gbg-orbit-2 .gbg-dot { top:  0%; left:  50%; }
+.gbg-orbit-3 .gbg-dot { top: 50%; left:   0%; }
+
+/* ─── Globe Animation ───────────────────────────────────────────────────────── */
+
+@keyframes globe-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes globe-breathe {
+  0%, 100% { filter: brightness(1) saturate(1.1); }
+  50%       { filter: brightness(1.15) saturate(1.3) drop-shadow(0 0 24px rgba(59,130,246,0.6)); }
+}
+@keyframes globe-glow-pulse {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 0.18; }
+}
+@keyframes orbit-spin {
+  from { transform: var(--orbit-tilt) rotateZ(0deg); }
+  to   { transform: var(--orbit-tilt) rotateZ(360deg); }
+}
+@keyframes scan-rotate {
+  from { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+  to   { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+
+.globe-root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.globe-float {
+  position: relative;
+  animation: globe-float 6s ease-in-out infinite;
+}
+
+.globe-img {
+  display: block;
+  border-radius: 50%;
+  animation: globe-breathe 5s ease-in-out infinite;
+}
+
+.globe-glow-overlay {
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 35% 30%, rgba(99,102,241,0.25) 0%, rgba(59,130,246,0.15) 35%, transparent 65%);
+  pointer-events: none;
+  animation: globe-glow-pulse 5s ease-in-out infinite;
+}
+
+/* Orbit rings ---------------------------------------------------------------- */
+.orbit {
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(99, 102, 241, 0.35);
+}
+.orbit-ring-thin {
+  border-width: 1px;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+/* Each orbit uses a CSS var for its tilt so the dot inherits the same spin */
+.orbit-1 {
+  --orbit-tilt: rotateX(72deg) rotateY(12deg);
+  transform: var(--orbit-tilt);
+  animation: orbit-spin 14s linear infinite;
+}
+.orbit-2 {
+  --orbit-tilt: rotateX(55deg) rotateY(-20deg);
+  transform: var(--orbit-tilt);
+  animation: orbit-spin 20s linear infinite reverse;
+}
+.orbit-3 {
+  --orbit-tilt: rotateX(82deg) rotateY(45deg);
+  transform: var(--orbit-tilt);
+  animation: orbit-spin 9s linear infinite;
+}
+
+/* Orbit dots — glowing points that ride on the ring */
+.orbit-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin: -3px;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(99,102,241,0.8);
+}
+.orbit-dot-1 { top: 50%; left: 100%; }
+.orbit-dot-2 { top:  0%; left:  50%; }
+.orbit-dot-3 { top: 50%; left:   0%; }
+
+/* Scan sweep — a single light-conal arc rotating behind the globe */
+.scan-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 140%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(59,130,246,0.07) 18deg,
+    transparent 36deg
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: scan-rotate 8s linear infinite;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050c1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
 }
